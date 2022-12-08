@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/screens/sign_in/components/sign_form.dart';
 import 'package:shop_app/size_config.dart';
 
-import '../../../components/custom_svg_icon.dart';
-import '../../../components/form_error.dart';
+import '../../../components/no_account_text.dart';
+import '../../../components/socal_card.dart';
 
 class BodySignIn extends StatelessWidget {
   const BodySignIn({super.key});
@@ -16,97 +15,51 @@ class BodySignIn extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig().getProportionateScreenWidth(30),
+            horizontal: SizeConfig().getProportionateScreenWidth(20),
           ),
-          child: Column(
-            children: [
-              Text(
-                "Welcome Back",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: SizeConfig().getProportionateScreenWidth(28),
-                  fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
+                Text(
+                  "Welcome Back",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig().getProportionateScreenWidth(28),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const Text(
-                "Sign in with your email and password \nor continue with social media",
-                textAlign: TextAlign.center,
-              ),
-              const SignForm(),
-            ],
+                const SizedBox(height: 9),
+                const Text(
+                  "Sign in with your email and password \nor continue with social media",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                const SignForm(),
+                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SocalCard(
+                      icon: 'assets/icons/facebook-2.svg',
+                      press: () {},
+                    ),
+                    SocalCard(
+                      icon: 'assets/icons/twitter.svg',
+                      press: () {},
+                    ),
+                    SocalCard(
+                      icon: 'assets/icons/google-icon.svg',
+                      press: () {},
+                    )
+                  ],
+                ),
+                SizedBox(height: SizeConfig().getProportionateScreenHeight(20)),
+                const NoAccountText()
+              ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignForm extends StatefulWidget {
-  const SignForm({super.key});
-
-  @override
-  State<SignForm> createState() => _SignFormState();
-}
-
-class _SignFormState extends State<SignForm> {
-  final _formKey = GlobalKey<FormState>();
-  final List<String> errors = ["Demo error"];
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          buildEmailFormField(),
-          SizedBox(height: SizeConfig().getProportionateScreenHeight(20)),
-          buildPasswordFormField(),
-          SizedBox(height: SizeConfig().getProportionateScreenHeight(20)),
-          FormError(errors: errors),
-          DefaultButton(
-            text: 'Continue',
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-              }
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  TextFormField buildPasswordFormField() {
-    return TextFormField(
-      obscureText: true,
-      decoration: const InputDecoration(
-        labelText: 'Passowrd',
-        hintText: "Enter Your Password",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/Lock.svg",
-        ),
-      ),
-    );
-  }
-
-  TextFormField buildEmailFormField() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        setState(() {
-          if (value!.isEmpty) {
-            errors.add("Please enter your email!");
-          }
-        });
-        return null;
-      },
-      decoration: const InputDecoration(
-        labelText: 'Email',
-        hintText: "Enter Your Email",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/Mail.svg",
         ),
       ),
     );
